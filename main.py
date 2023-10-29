@@ -2,12 +2,10 @@ from msvcrt import getch
 from os import system
 from re import search
 from random import randint
-from time import sleep
-
 
 def menu():
-    index = 0
-    ui_options = ['PLAYER VS PC', 'PC VS PLAYER', 'EXIT']
+    index : int = 0
+    ui_options : list = ['PLAYER VS PC', 'PC VS PLAYER', 'GAME RULES', 'EXIT']
     system('cls')
     print('{:^20}'.format(f'[Welcome to Mastermind!]'))
     for i in range(len(ui_options)):
@@ -37,7 +35,6 @@ def gameloop(gamemode):
         guess_sheet : list = []
         user_input : str = None
         round : int = 0
-        print(pc_choice)
         print('{:^50}'.format(f'[Currently Playing: PLAYER VS PC]\n'))
         while pc_choice != user_input:
             guess_sheet = []
@@ -57,16 +54,18 @@ def gameloop(gamemode):
         print('{:^50}'.format(f'\n[GG, The number was {user_input}, You won in {round} round(s)!]'))
         print('{:^50}'.format('[Press any key to return to menu...]'),end='')
         input()
-            
-            
-
-
+    elif gamemode == 1:
+        print('bruh')
+        input()
 
 if __name__ == '__main__':
     while True:
         gamemode = menu()
-        if gamemode != 2:
+        if gamemode <=1:   #Plays the game unless user has selected "Exit" (exit = 2)
             gameloop(gamemode)
+        elif gamemode == 2:
+            print('idk, guess or sum')
+            input()
         else:
             print('[Exiting...]')
             break
