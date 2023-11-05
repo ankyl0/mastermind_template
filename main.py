@@ -1,7 +1,7 @@
 from msvcrt import getch
 from os import system
 from re import search
-from random import randint
+from random import randint, choice
 
 def menu():
     index : int = 0
@@ -29,14 +29,29 @@ def menu():
             else:
                 print('{:^25}'.format(f'{ui_options[i]}'))
 
+def generate_guess(previous_guesses):
+    start_numbers = [0,1,2,3,4,5,6,7,8,9]
+    guess_list = []
+    guess : str = ''
+    #Generates a number with ONLY unique characters.
+    while len(guess_list) != 4:
+        try:
+            guess_list.append(start_numbers.pop(randint(0,9)))
+        except IndexError:
+            continue
+    for i in range(4):
+        guess += str(guess_list[i])
+
+    return guess
+
 def gameloop(gamemode):
     if gamemode == 0:
         pc_choice : str = str(randint(1000, 9999))
         guess_sheet : list = []
         user_input : str = None
-        round : int = 0
+        round : int = 1
         print('{:^50}'.format(f'[Currently Playing: PLAYER VS PC]\n'))
-        while pc_choice != user_input:
+        while pc_choice != user_input and round !=13:
             guess_sheet = []
             print('{:>32}'.format('[Enter your guess]: '),end='')
             user_input = str(input())
@@ -50,13 +65,35 @@ def gameloop(gamemode):
                 print('{:^50}'.format(' '.join(guess_sheet),''), end='\n\n')
                 round +=1
             else:
-                print('[INVALID INPUT, ENTER A 4 DIGIT NUMBER!]')
-        print('{:^50}'.format(f'\n[GG, The number was {user_input}, You won in {round} round(s)!]'))
-        print('{:^50}'.format('[Press any key to return to menu...]'),end='')
-        input()
+                print('{:^50}'.format('[INVALID INPUT, ENTER A 4 DIGIT NUMBER!]'))
+        if round <=12:
+            print('{:^50}'.format(f'\n[GG, The number was {user_input}, You won in {round} round(s)!]'))
+            print('{:^50}'.format('[Press any key to return to menu...]'),end='')
+            input()
+        else:
+            print('{:^50}'.format(f'[Game Over, The number was {user_input}...]'))
+            print('{:^50}'.format('[Press any key to return to menu...]'),end='')
+            input()
+
     elif gamemode == 1:
-        print('bruh')
-        input()
+        round : int = 1
+        pc_guess : str = None
+        previous_guesses : list = []
+        guess_sheet : str = ''
+
+        print('{:>32}'.format('[Enter your number]: '),end='')
+        player_choice = str(input())
+        while pc_guess != player_choice and round != 13:
+            pc_guess = generate_guess(previous_guesses)
+            print('{:^32}'.format(f'[PC Guessed {pc_guess}, enter R or F]: '),end='')
+            guess_sheet = [i for i in input()]
+
+            #Runs if the pc's guess isn't correct.
+            if guess_sheet != ['R', 'R', 'R', 'R']:
+                previous_guesses.append(pc_guess)
+            
+            print(previous_guesses)
+
 
 if __name__ == '__main__':
     while True:
