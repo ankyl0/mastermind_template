@@ -32,5 +32,10 @@ def menu(title, options_list, functions_list):
 def main():
     index = menu('HELLO', ['PLAYER VS PC', 'PC VS PLAYER', 'HELP', 'EXIT'], [player_vs_pc, ai_vs_player])
 
+def main():
+    selection = True
+    while selection == True:
+        selection = menu(['PLAYER VS PC', 'PC VS PLAYER', 'HELP', 'EXIT'], [player_vs_pc, pc_vs_player, help_menu, exit])
+    print('[Exiting...]')
 if __name__ == '__main__':
     main()
